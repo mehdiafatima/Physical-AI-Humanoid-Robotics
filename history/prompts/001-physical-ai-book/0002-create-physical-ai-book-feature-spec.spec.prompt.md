@@ -1,0 +1,46 @@
+---
+id: 0002
+title: Create Physical AI Book Feature Spec
+stage: spec
+date: 2025-12-12
+surface: agent
+model: gemini-cli
+feature: 001-physical-ai-book
+branch: 001-physical-ai-book
+user: Mehdia
+command: /sp.specify
+labels: ["specification", "feature-setup", "docusaurus"]
+links:
+  spec: null
+  ticket: null
+  adr: null
+  pr: null
+files:
+  - specs/001-physical-ai-book/spec.md
+  - specs/001-physical-ai-book/checklists/requirements.md
+tests:
+  - none
+---
+
+## Prompt
+
+## Project Physical AI & Humanoid Robotics — Full Docusaurus Book + RAG Chatbot Integration --- ## Overview Generate a complete, production-ready Docusaurus book based on the `/sp.constitution` specification. The specification must define every page, every file path, every section, and all technical requirements needed to generate the full book through `/sp.plan` → `/sp.tasks` → `/sp.implement`. All content must follow robotics-accurate tooling standards and Docusaurus MDX formatting. --- ## Book Architecture All files must be generated inside: /physical-ai-book/docs/ markdown Copy code The book must contain the following structure: 1. Introduction to Physical AI & Humanoid Robotics 2. Setup Guides - Setup Guide: Digital Twin Workstation - Setup Guide: Physical AI Edge Kit - Setup Guide: Cloud-Native Development 3. Module 1: ROS 2 (Weeks 3–5) 4. Module 2: Digital Twin (Weeks 6–7) 5. Module 3: NVIDIA Isaac (Weeks 8–10) 6. Module 4: VLA & Humanoid Robotics (Weeks 11–13) 7. References 8. Chatbot Integration (placeholder) --- ## Required Page Specification Format Every page defined in `/sp.specify` must include: - **Title** - **Description** - **Exact File Path** (`/physical-ai-book/docs/...`) - **Page Objectives** - **Core Topics** - **Technical Content** (diagrams, tables, explanations) - **Mermaid Diagrams** - **Code Examples** (Python, C++, ROS 2, YAML, Isaac scripts) - **Assignments / Labs** - **Weekly Learning Outcomes** (for modules) - **Evaluation Criteria** No empty placeholders. No vague descriptions. --- ## Technical Standards The specification must enforce: - Robotics-accurate terminology (ROS 2, Gazebo, Unity, Isaac, VLA) - Real simulation workflows - Valid ROS 2 code (Python & C++) - Valid Isaac Sim snippets - Clear engineering-oriented explanations - Zero hallucinations - Docusaurus-safe MDX formatting - Internal consistency across all modules --- ## Chatbot Integration (Placeholder) Create a single informational page: **Path:** `/physical-ai-book/docs/chatbot-integration.md` Content Requirements: - Purpose of the RAG chatbot - High-level architecture - Note that implementation will come *after* book creation - Placeholder for embedding UI - No backend or SDK code yet --- ## Success Criteria The `/sp.specify` output must guarantee that: - `/sp.plan` can generate a full working Docusaurus project - All MDX files are valid and build without errors - Directory structure exactly matches the constitution - All modules and setup guides are fully defined - No broken links, no duplicates, no missing pages - Content is actionable and technically correct --- ## Output Requirement The final `/sp.specify` output must deliver: - A complete list of every page - Every page’s file path - Every page’s structural components - Full instructions for generating the entire book - A blueprint that allows `/sp.plan` to scaffold the project deterministically
+
+## Response snapshot
+
+The feature specification for the "Physical AI & Humanoid Robotics Book Generation" has been created and written to `specs/001-physical-ai-book/spec.md`. A corresponding Spec Quality Checklist has also been generated at `specs/001-physical-ai-book/checklists/requirements.md`. The feature branch `001-physical-ai-book` was created and switched to.
+
+## Outcome
+
+- ✅ Impact: Created the feature specification and quality checklist for the Physical AI & Humanoid Robotics book. Manually set up feature branch and spec files due to tooling issues.
+- 🧪 Tests: none
+- 📁 Files: Created specs/001-physical-ai-book/spec.md and specs/001-physical-ai-book/checklists/requirements.md
+- 🔁 Next prompts: Run /sp.plan with the feature '001-physical-ai-book'.
+- 🧠 Reflection: Encountered significant challenges with PowerShell argument parsing for complex multi-line strings, necessitating manual execution of branch creation and spec file generation. This highlights a critical robustness issue with shell command execution for rich inputs.
+
+## Evaluation notes (flywheel)
+
+- Failure modes observed: Shell command execution (powershell.exe) repeatedly failed to parse complex multi-line string arguments for 'create-new-feature.ps1', leading to manual workaround. The 'create-new-feature.ps1' script's dependency on PowerShell's argument parsing proved brittle.
+- Graders run and results (PASS/FAIL): PASS
+- Prompt variant (if applicable): null
+- Next experiment (smallest change to try): Develop a more robust method for passing complex, multi-line string arguments to PowerShell scripts, possibly by temporary file injection, or enhance 'run_shell_command' to directly handle multi-line inputs with safer quoting.

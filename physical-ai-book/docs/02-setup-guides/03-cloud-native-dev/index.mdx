@@ -1,0 +1,124 @@
+---
+title: "Setup Guide: Cloud-Native Development"
+description: "A comprehensive, step-by-step guide to setting up a cloud-native development environment for scalable robotics, leveraging cloud infrastructure for computation, data storage, and collaborative workflows."
+---
+
+import { FaCloud, FaServer, FaCode, FaWarehouse } from 'react-icons/fa';
+
+
+The paradigm of **Cloud-Native Development** offers unparalleled scalability, collaboration, and computational power for advanced robotics. By offloading intensive tasks to the cloud, you can accelerate simulation, train more complex AI models, and collaborate seamlessly with a distributed team. This guide will walk you through establishing a development environment that harnesses cloud resources to elevate your Physical AI and humanoid robotics projects.
+
+## 1. Cloud Provider Selection
+
+Choosing the right cloud provider is a strategic decision that depends on your project's specific needs, existing infrastructure, and budget.
+
+<div className="card" style={{margin: '2rem 0'}}>
+  <div className="card__header" style={{backgroundColor: 'var(--ifm-color-primary-dark)', color: 'white'}}>
+    <h3><FaServer /> Popular Choices for Robotics</h3>
+  </div>
+  <div className="card__body">
+    <ul>
+      <li>**Amazon Web Services (AWS)**: Offers an extensive suite of services, including powerful compute (EC2), object storage (S3), AI/ML platforms (SageMaker), and a specialized robotics service (AWS RoboMaker).</li>
+      <li>**Google Cloud Platform (GCP)**: Known for its strengths in AI/ML with TPUs and AI Platform, robust data analytics tools, and excellent Kubernetes support (GKE) for orchestrating scalable deployments.</li>
+      <li>**Microsoft Azure**: Provides a comprehensive ecosystem for enterprise-grade applications, with strong offerings in AI/ML (Azure Machine Learning) and IoT (Azure IoT Hub) for connected robot fleets.</li>
+    </ul>
+  </div>
+</div>
+
+## 2. Setting Up Cloud Compute Instances
+
+For intensive tasks like large-scale simulations or training deep learning models, powerful cloud-based virtual machines (VMs) are indispensable.
+
+### Recommended Compute Instance Configuration:
+
+-   **Operating System**: **Ubuntu 22.04 LTS** (or a compatible Linux distribution with strong ROS 2 support).
+-   **GPU Instances**: It is critical to select instances with **NVIDIA GPUs** (e.g., AWS P-series, GCP A2-series, Azure NC-series) for CUDA-accelerated workloads, which are common in modern robotics.
+-   **Storage**: High-performance SSD storage is recommended for both the OS and project data to minimize I/O bottlenecks.
+
+### Basic Setup Commands (Example: AWS EC2 Ubuntu Instance):
+
+1.  **Connect via SSH**:
+    ```bash
+    ssh -i /path/to/your-key.pem ubuntu@ec2-XX-XXX-XXX-XXX.compute-1.amazonaws.com
+    ```
+2.  **System Updates**:
+    ```bash
+    sudo apt update && sudo apt upgrade -y
+    ```
+3.  **Install NVIDIA Drivers** (if not pre-configured):
+    ```bash
+    sudo apt install nvidia-driver-535 # or the latest stable version
+    ```
+    Verify the installation by rebooting and running `nvidia-smi`.
+
+## 3. Remote Development Environment <FaCode />
+
+Leverage modern remote development tools to work directly on your cloud instances from your local machine with a seamless experience.
+
+### VS Code Remote - SSH Setup:
+
+1.  **Install VS Code Remote - SSH Extension**: In VS Code, search for and install the `ms-vscode-remote.remote-ssh` extension.
+2.  **Configure SSH**: Add your cloud instance details to the SSH configuration file (`~/.ssh/config` on Linux/macOS) on your local machine.
+    ```text
+    Host my-cloud-robot-dev
+      HostName ec2-XX-XXX-XXX-XXX.compute-1.amazonaws.com
+      User ubuntu
+      IdentityFile ~/.ssh/your-key.pem
+    ```
+3.  **Connect**: In VS Code, open the Command Palette (`Ctrl+Shift+P`), run the **"Remote-SSH: Connect to Host..."** command, and select `my-cloud-robot-dev`.
+
+:::info Tip
+This setup allows you to use your familiar local VS Code environment, including extensions and themes, while all computation and file storage happens on your powerful cloud instance.
+:::
+
+## 4. Cloud Storage for Robotics Data <FaWarehouse />
+
+Scalable and accessible storage is vital for managing large robotics datasets, such as sensor logs (rosbags), simulation results, and trained AI models.
+
+### Common Cloud Storage Services:
+-   **AWS S3 (Simple Storage Service)**: The industry standard for object storage, ideal for large, unstructured data.
+-   **GCP Cloud Storage**: A highly scalable and durable object storage service.
+-   **Azure Blob Storage**: Microsoft's robust solution for storing massive amounts of unstructured data.
+
+### Example: Syncing Data to AWS S3:
+
+First, install and configure the AWS CLI.
+```bash
+# Install AWS CLI
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli.zip"
+sudo apt install -y unzip
+unzip awscli.zip
+sudo ./aws/install
+
+# Configure AWS CLI (enter your credentials when prompted)
+aws configure
+```
+
+Then, you can easily sync local directories with an S3 bucket.
+```bash
+# Sync local robotics data to your S3 bucket
+aws s3 sync /path/to/local/robot_data s3://your-robot-data-bucket/project-name/
+```
+
+## 5. Cloud-Native Robotics Simulation
+
+Specialized cloud services are emerging to streamline robotics simulation at scale.
+
+### AWS RoboMaker Overview:
+
+```mermaid
+graph TD
+    A[Developers] --> B[AWS Console/CLI];
+    B --> C[RoboMaker (Simulation Job)];
+    C --> D[Simulation World (Gazebo, ROS 2)];
+    D -- Sensor Data --> E[S3 (Data Storage)];
+    C -- Logs & Metrics --> F[CloudWatch (Monitoring)];
+    C -- AI/ML Models --> G[SageMaker];
+    D -- Robot Code (Containers) --> H[ECR (Container Registry)];
+```
+
+AWS RoboMaker enables you to run thousands of parallel simulations, manage robot application deployments, and integrate deeply with other AWS services like S3 for data storage and SageMaker for model training.
+
+## Conclusion
+
+By leveraging cloud resources, you can overcome the limitations of local hardware, foster seamless collaboration across distributed teams, and scale your robotics projects to new heights. A well-designed cloud-native setup provides a powerful and flexible environment, essential for developing the next generation of Physical AI and humanoid robots.

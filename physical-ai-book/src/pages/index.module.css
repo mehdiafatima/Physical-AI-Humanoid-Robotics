@@ -1,0 +1,160 @@
+.homepageBanner {
+  background-color: #000000 ;
+  padding: 80px 0;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.leftText {
+  flex: 1;
+  max-width: 600px;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #45b477;
+  margin-bottom: 20px;
+  margin-top: -30px;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #389c65;
+  margin-bottom: 25px;
+}
+
+.intro {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
+.rightImage {
+  flex: 1;
+  max-width: 500px;
+  size: 20px;
+}
+
+.robotImage {
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.robotImage:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 992px) {
+  .container {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+  .leftText, .rightImage {
+    max-width: 100%;
+  }
+}
+.homepageBanner {
+  padding: 1rem 2rem;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+}
+
+.leftText {
+  flex: 1;
+}
+
+.rightImage img {
+  width: 100%;
+  max-width: 420px;
+}
+
+/* --- TYPOGRAPHY --- */
+.title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.intro {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 550px;
+  margin-bottom: 1.5rem;
+}
+
+/* ===================================== */
+/*        📱 MOBILE RESPONSIVE RULES      */
+/* ===================================== */
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1.25rem;
+  }
+
+  .intro {
+    font-size: 0.95rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .rightImage {
+    margin-top: 1.5rem;
+  }
+
+  .rightImage img {
+    max-width: 300px;
+  }
+}
+
+/* Smaller phones */
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.7rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .intro {
+    font-size: 0.85rem;
+  }
+
+  .rightImage img {
+    max-width: 260px;
+  }
+}

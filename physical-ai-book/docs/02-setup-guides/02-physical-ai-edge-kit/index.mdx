@@ -1,0 +1,132 @@
+---
+title: "Setup Guide: Physical AI Edge Kit"
+description: "A comprehensive, step-by-step guide to setting up a physical AI edge kit for real-world robotics deployment, including hardware, software, and network configuration."
+---
+
+import { FaMicrochip, FaCogs, FaNetworkWired, FaTools } from 'react-icons/fa';
+
+
+Deploying AI capabilities directly onto robotic hardware—at the "edge"—is critical for achieving real-time responsiveness, reducing latency, and enabling true autonomy. This guide provides a detailed walkthrough for setting up a **Physical AI Edge Kit**, transforming your robotic platforms into intelligent agents capable of complex physical interactions.
+
+## 1. Hardware Selection and Preparation
+
+Choosing the right edge hardware is crucial, balancing compute power, power efficiency, and form factor.
+
+<div className="card" style={{margin: '2rem 0'}}>
+  <div className="card__header" style={{backgroundColor: 'var(--ifm-color-primary-dark)', color: 'white'}}>
+    <h3><FaCogs /> Common Edge Platforms</h3>
+  </div>
+  <div className="card__body">
+    <ul>
+      <li>**NVIDIA Jetson Series**: The industry standard for edge AI, with options like the Jetson Nano, Xavier NX, or Orin Nano/AGX, offering powerful GPU-accelerated AI inference.</li>
+      <li>**Raspberry Pi (with AI accelerators)**: A cost-effective solution for less demanding tasks. A Raspberry Pi paired with a Coral Edge TPU or similar accelerator can be highly effective.</li>
+      <li>**Industrial PCs (IPCs)**: Ruggedized, high-performance options for robotics in harsh industrial environments.</li>
+    </ul>
+  </div>
+</div>
+
+### Preparation Steps:
+1.  **Mounting**: Securely mount the edge device onto your robot, considering vibration and heat dissipation.
+2.  **Power Supply**: Ensure a stable and sufficient power supply. For mobile robots, use a regulated DC-DC converter from your battery system.
+3.  **Connectivity**: Plan for robust network connectivity via Wi-Fi, Ethernet, or a 5G/LTE modem for remote operations.
+
+## 2. Operating System and Base Software
+
+**Ubuntu Server** is the recommended choice for NVIDIA Jetson, while **Raspberry Pi OS** is standard for Raspberry Pi. Both are optimized for embedded systems.
+
+### Installation and Configuration:
+1.  **OS Flash**: Flash the appropriate OS image to your device's storage (SD card or eMMC) using a tool like [Raspberry Pi Imager](https://www.raspberrypi.com/software/) or by following NVIDIA's JetPack SDK instructions.
+2.  **Initial Setup**: Complete basic OS configuration, including user accounts, password, and network settings.
+3.  **System Updates**: Keep your system up-to-date.
+    ```bash
+    sudo apt update && sudo apt upgrade -y
+    ```
+4.  **SSH Access**: Enable and configure SSH for remote, headless access.
+    ```bash
+    sudo apt install openssh-server -y
+    sudo systemctl enable ssh --now
+    ```
+
+:::tip Tip
+Always use strong, unique passwords for your edge devices, especially if they will be connected to a network.
+:::
+
+## 3. Robotics Middleware: ROS 2 for Edge <FaTools />
+
+ROS 2 provides a robust framework for managing your robot's software components and communication.
+
+### ROS 2 Installation (Humble Hawksbill for ARM64):
+
+Follow the standard ROS 2 installation steps for your specific platform, ensuring you use the ARM64 architecture build for devices like Jetson and Raspberry Pi.
+
+```bash
+# Example for Ubuntu/Jetson (ARM64)
+# Set locale
+sudo apt update && sudo apt install -y locales
+sudo locale-gen en_US en_US.UTF-8
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+# Setup Sources
+sudo apt install -y software-properties-common
+sudo add-apt-repository universe
+sudo apt update && sudo apt install -y curl
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+# Install ROS 2 base packages (optimized for edge)
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y ros-humble-ros-base # `ros-base` is a minimal install, ideal for edge devices.
+
+# Environment setup
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+
+## 4. AI Runtime and Libraries
+
+Depending on your hardware, install the necessary AI inference runtimes and libraries.
+
+### For NVIDIA Jetson (CUDA, cuDNN, TensorRT):
+These components are typically pre-installed or available via the **NVIDIA JetPack SDK**. Ensure they are up-to-date for optimal performance.
+
+```bash
+# Example: Check CUDA version
+nvcc --version
+# Example: Check TensorRT version
+dpkg -l | grep nvinfer
+```
+
+### Python Environment:
+Use `venv` to create isolated Python environments to manage dependencies effectively.
+
+```bash
+sudo apt install -y python3-pip python3-venv
+python3 -m venv ~/robot_env
+source ~/robot_env/bin/activate
+pip install numpy opencv-python # Install basic libraries
+```
+
+## 5. Network Configuration for Robotics <FaNetworkWired />
+
+Reliable communication between the edge device, sensors, actuators, and a remote workstation is crucial.
+
+### Common Robotics Network Topologies:
+
+```mermaid
+graph TD
+    A[Robot Edge Device] -- Wi-Fi/Ethernet --> B[On-board Robot Network];
+    B -- Wi-Fi/Ethernet --> C[Local Workstation];
+    B -- 5G/LTE (Optional) --> D[Cloud Platform];
+    E[Sensors (Camera, Lidar)] -- USB/MIPI-CSI/Ethernet --> A;
+    F[Actuators (Motors, Servos)] -- USB/UART/CAN --> A;
+```
+
+### Configuration Best Practices:
+-   **Static IPs**: Assign static IP addresses to your robot's network interfaces for consistent and reliable discovery.
+-   **Firewall Rules**: Configure your firewall to allow necessary ROS 2 ports (typically UDP ports for DDS discovery and communication).
+-   **NTP Sync**: Ensure accurate time synchronization across all robot components and your workstation using `chrony` or a similar NTP client. This is critical for timestamping sensor data.
+
+## Conclusion
+
+Your Physical AI Edge Kit is now set up with the foundational hardware and software stack for deploying intelligent robotics applications in the real world. This robust edge environment is ready to host your AI models, perception pipelines, and control algorithms for direct, real-time robotic interaction.

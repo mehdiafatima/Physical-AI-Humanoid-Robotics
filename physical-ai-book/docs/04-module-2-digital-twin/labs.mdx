@@ -1,0 +1,165 @@
+---
+title: "Module 2: Digital Twin Labs"
+description: "Practical, hands-on lab exercises for building, configuring, and interacting with digital twins of robotic systems in simulation."
+---
+
+import { FaFlask, FaCubes, FaRobot } from 'react-icons/fa';
+
+This module provides a series of hands-on laboratory exercises designed to bridge the gap between theoretical understanding and the practical application of Digital Twin technology in robotics. These labs will guide you through setting up simulation environments, integrating custom robot models, and interacting with your virtual robots using ROS 2.
+
+## Lab 2.1: Basic Robot Simulation in Gazebo
+
+**Objective**: Launch a basic, pre-built robot model in the Gazebo simulator and verify its functionality by sending control commands.
+
+**Prerequisites**:
+-   ROS 2 Humble Hawksbill installed (from Module 1)
+-   Gazebo installed (typically comes with a ROS 2 desktop installation)
+
+### Steps:
+
+1.  **Install Demo Package**: For this lab, we'll use the `diffdrive_arduino` example from the `ros2_control_demos` package.
+    ```bash
+    sudo apt install ros-humble-ros2-control-demos -y
+    ```
+2.  **Launch the Simulation**: Use a ROS 2 launch file to bring up Gazebo with the differential drive robot model.
+    ```bash
+    ros2 launch ros2_control_demos diffdrive_arduino.launch.py
+    ```
+    This command should open a Gazebo window with a simple wheeled robot in an empty world.
+
+3.  **Verify Robot Control**: In a new terminal (after sourcing your ROS 2 setup files), send velocity commands to the robot's topic.
+    ```bash
+    # First, list available topics to find the command velocity topic
+    ros2 topic list
+    # You should see a topic like /diffbot_base_controller/cmd_vel_unstamped
+
+    # Publish a command to make the robot move forward
+    ros2 topic pub --once /diffbot_base_controller/cmd_vel_unstamped geometry_msgs/msg/Twist '{linear: {x: 0.5}, angular: {z: 0.0}}'
+    ```
+    Observe the robot moving forward in the Gazebo simulation. To make it turn, you can publish a command with angular velocity.
+
+## Lab 2.2: Integrating Custom URDF Models into Simulation <FaCubes />
+
+**Objective**: Load your custom URDF robot model (created in Module 1) into a simulation environment.
+
+**Prerequisites**:
+-   A URDF model file (e.g., `two_link_arm.urdf`)
+-   A ROS 2 workspace with your package (e.g., `my_ros2_package`) built
+
+### Steps:
+
+1.  **Create a Launch File for Your URDF**:
+    This launch file will start `robot_state_publisher` to broadcast your robot's structure. Create `my_ros2_package/launch/display_urdf.launch.py`:
+    ```python
+    import os
+    from ament_index_python.packages import get_package_share_directory
+    from launch import LaunchDescription
+    from launch.actions import DeclareLaunchArgument
+    from launch.substitutions import LaunchConfiguration
+    from launch_ros.actions import Node
+
+    def generate_launch_description():
+        # Get the path to the URDF file
+        urdf_file_name = 'two_link_arm.urdf'
+        urdf_path = os.path.join(
+            get_package_share_directory('my_ros2_package'),
+            'urdf',
+            urdf_file_name)
+
+        return LaunchDescription([
+            # Node to publish robot state
+            Node(
+                package='robot_state_publisher',
+                executable='robot_state_publisher',
+                name='robot_state_publisher',
+                output='screen',
+                parameters=[{'robot_description': open(urdf_path).read()}]
+            ),
+            # Node to provide a GUI for controlling joint states
+            Node(
+                package='joint_state_publisher_gui',
+                executable='joint_state_publisher_gui',
+                name='joint_state_publisher_gui'
+            ),
+            # Node to launch RViz for visualization
+            Node(
+                package='rviz2',
+                executable='rviz2',
+                name='rviz2',
+                output='screen'
+            )
+        ])
+    ```
+    *(Note: This launch file is for visualization in RViz. Spawning in Gazebo requires additional steps, as shown in the more advanced section below.)*
+
+2.  **Build and Run**:
+    After updating `setup.py` to include the launch file:
+    ```bash
+    cd ~/ros2_ws
+    colcon build --packages-select my_ros2_package
+    source install/setup.bash
+    ros2 launch my_ros2_package display_urdf.launch.py
+    ```
+    In RViz, add a "RobotModel" display and set the "Fixed Frame" to `base_link` to see your robot. Use the `joint_state_publisher_gui` to move the joints.
+
+## Lab 2.3: Basic Sensor Data Simulation <FaRobot />
+
+**Objective**: Simulate publishing basic sensor data (e.g., joint states) from your robot model without manual input.
+
+**Prerequisites**:
+-   Lab 2.2 completed.
+
+### Steps:
+
+Instead of using the GUI, we can create a simple node to publish joint states.
+
+1.  **Create a Joint State Publisher Node**:
+    Create `my_ros2_package/my_ros2_package/simple_joint_publisher.py`:
+    ```python
+    import rclpy
+    from rclpy.node import Node
+    from sensor_msgs.msg import JointState
+    import math
+
+    class SimpleJointPublisher(Node):
+        def __init__(self):
+            super().__init__('simple_joint_publisher')
+            self.publisher_ = self.create_publisher(JointState, 'joint_states', 10)
+            self.timer = self.create_timer(0.1, self.timer_callback)
+            self.get_logger().info('Simple Joint Publisher started.')
+
+        def timer_callback(self):
+            msg = JointState()
+            msg.header.stamp = self.get_clock().now().to_msg()
+            msg.name = ['joint1', 'joint2']
+            # Example: make joints oscillate
+            angle = 0.5 * math.sin(self.get_clock().now().nanoseconds / 1e9)
+            msg.position = [angle, angle]
+            self.publisher_.publish(msg)
+
+    def main(args=None):
+        rclpy.init(args=args)
+        node = SimpleJointPublisher()
+        rclpy.spin(node)
+        rclpy.shutdown()
+
+    if __name__ == '__main__':
+        main()
+    ```
+
+2.  **Update `setup.py` and Launch File**:
+    -   Add `simple_joint_publisher` as a new entry point in `setup.py`.
+    -   Modify your launch file to run `simple_joint_publisher` instead of `joint_state_publisher_gui`.
+
+3.  **Build and Run**:
+    ```bash
+    # Re-build and re-launch
+    colcon build --packages-select my_ros2_package
+    source install/setup.bash
+    ros2 launch my_ros2_package your_modified_launch_file.py
+    ```
+    Now, in RViz, you should see your robot's joints moving automatically.
+
+## Conclusion
+
+These labs provide a foundational experience in interacting with digital twins through simulation platforms. By learning to launch, control, and integrate custom robot models, you are mastering the essential skills for testing and validating your Physical AI algorithms in a safe, controlled, and efficient virtual environment.

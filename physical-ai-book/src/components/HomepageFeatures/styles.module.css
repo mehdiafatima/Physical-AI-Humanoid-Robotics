@@ -1,0 +1,132 @@
+.book-first-page-grid {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: #000000; /* black background */
+  padding: 5rem 2rem;
+  box-sizing: border-box;
+  color: #33ffd3;
+}
+
+.book-chapters-grid {
+  max-width: 1200px;
+  font-family: 'Inter', sans-serif;
+}
+
+.mainHeading {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #45b477; /* bright green */
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.subHeading {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #c8e6c9; /* lighter green */
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.chapterGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.chapterCard {
+  background: #111; /* slightly lighter black */
+  border-left: 4px solid transparent;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.chapterCard:hover {
+  border-left: 4px solid #389c65; /* green border on hover */
+  cursor: pointer;
+}
+
+.chapterTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #389c65; /* green title */
+}
+
+.chapterDescription {
+  font-size: rem;
+  color: #c8e6c9; /* light green description */
+  line-height: 1.6;
+}
+
+.additionalContent {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #389c65; /* subtle green separator */
+}
+
+.sectionHeading {
+  font-size: 3rem;/* slightly bigger heading */
+  color: #389c65;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.additionalContent ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  color: #c8e6c9;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.additionalContent li {
+  margin-bottom: 0.75rem;
+}
+@media (max-width: 900px) {
+  .mainHeading {
+    font-size: 2.2rem;
+  }
+  .subHeading {
+    font-size: 1.2rem;
+  }
+  .chapterTitle {
+    font-size: 1.1rem;
+  }
+  .chapterDescription {
+    font-size: 0.95rem;
+  }
+  .sectionHeading {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .book-first-page-grid {
+    padding: 2rem 1rem;
+  }
+
+  .mainHeading {
+    font-size: 1.8rem;
+  }
+  .subHeading {
+    font-size: 1rem;
+  }
+  .chapterTitle {
+    font-size: 1rem;
+  }
+  .chapterDescription {
+    font-size: 0.9rem;
+  }
+  .sectionHeading {
+    font-size: 1.6rem;
+  }
+
+  .chapterGrid {
+    grid-template-columns: 1fr; /* Stack cards on small screens */
+  }
+}

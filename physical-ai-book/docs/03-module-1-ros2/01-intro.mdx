@@ -1,0 +1,100 @@
+---
+title: "Chapter 1: Introduction to ROS 2"
+description: "An introductory chapter to the Robot Operating System 2 (ROS 2), covering its architecture, core concepts, and fundamental components."
+---
+
+# Chapter 1: Introduction to ROS 2
+
+The **Robot Operating System 2 (ROS 2)** is a flexible framework for writing robot software. It's not an operating system in the traditional sense, but rather a collection of tools, libraries, and conventions that aim to simplify the task of creating complex and robust robot applications. Building on the success of its predecessor, ROS 1, ROS 2 was re-architected to meet the demands of modern robotics, including real-time control, multi-robot systems, and embedded platforms.
+
+## 1.1. Why ROS 2? The Evolution of Robot Software
+
+The evolution from ROS 1 to ROS 2 was driven by several key requirements emerging from new robotic applications:
+
+-   **Real-time Capabilities**: Support for time-sensitive applications and hard real-time guarantees.
+-   **Multi-robot Systems**: Native support for communication across multiple robots and distributed networks.
+-   **Embedded Systems**: Optimized for resource-constrained platforms, crucial for edge AI.
+-   **Security**: Enhanced security features for robust and safe operation.
+-   **Quality of Service (QoS)**: Fine-grained control over communication reliability and latency.
+-   **Commercial Adoption**: Easier integration into commercial products.
+
+These advancements make ROS 2 an indispensable tool for developing the next generation of Physical AI and humanoid robots.
+
+## 1.2. ROS 2 Architecture: A Decentralized Approach
+
+At its core, ROS 2 embraces a **decentralized, distributed architecture**. Unlike ROS 1's reliance on a central `roscore`, ROS 2 uses a **Data Distribution Service (DDS)** for its communication backbone. DDS is an open international standard for publish/subscribe middleware, enabling direct, peer-to-peer communication between nodes.
+
+### Key Architectural Components:
+
+-   **Nodes**: Independent computational processes that perform specific tasks (e.g., sensor driver, path planner, motor controller).
+-   **Topics**: Named buses over which nodes exchange messages asynchronously using a publish/subscribe model.
+-   **Services**: A request/reply communication mechanism for synchronous, client-server interactions.
+-   **Actions**: For long-running, preemptable tasks, providing feedback and results (builds on services and topics).
+-   **Parameters**: Dynamic, run-time configurable values for nodes.
+-   **Messages**: Data structures used for communication between nodes.
+-   **Packages**: Organizational units for ROS 2 code, containing nodes, libraries, messages, and launch files.
+
+```mermaid
+graph TD
+    A[Node A] -- Publishes to --> B(Topic X);
+    C[Node C] -- Subscribes to --> B;
+    Node B --> D(Topic Y);
+    Node E -- Subscribes to --> D;
+
+    SubGraph Communication Patterns
+        Node A -- Request/Reply --> F(Service G);
+        Node A -- Goal/Feedback/Result --> H(Action H);
+    End
+
+    SubGraph Node Configuration
+        K(Node K) -- Sets/Gets --> L(Parameter P);
+    End
+```
+
+## 1.3. Setting Up Your First ROS 2 Workspace
+
+A ROS 2 workspace is a directory where you can store, build, and install your ROS 2 packages.
+
+### Steps to Create a Workspace:
+
+1.  **Create a directory for your workspace**:
+    ```bash
+    mkdir -p ~/ros2_ws/src
+    cd ~/ros2_ws
+    ```
+2.  **Initialize the workspace**:
+    ```bash
+    rosdep install -i --from-path src --rosdistro humble -y
+    colcon build
+    ```
+    `rosdep` is used to install system dependencies, and `colcon` is the build tool for ROS 2.
+3.  **Source the setup files**:
+    After building, you need to source the setup files from your workspace.
+    ```bash
+    source install/setup.bash
+    ```
+    To automatically source it every time you open a new terminal, add it to your `~/.bashrc` (after sourcing the ROS 2 environment itself):
+    ```bash
+    echo "source ~/ros2_ws/install/setup.bash" >> ~/.bashrc
+    ```
+
+## 1.4. Basic ROS 2 Commands
+
+Interacting with ROS 2 involves several command-line tools.
+
+-   **`ros2 run <package_name> <executable_name>`**: Runs an executable from a ROS 2 package.
+    ```bash
+    ros2 run turtlesim turtlesim_node
+    ```
+-   **`ros2 topic list`**: Lists active topics.
+-   **`ros2 topic echo <topic_name>`**: Displays messages published on a topic.
+    ```bash
+    ros2 topic echo /turtle1/cmd_vel
+    ```
+-   **`ros2 node list`**: Lists active nodes.
+-   **`ros2 service list`**: Lists active services.
+-   **`ros2 param list`**: Lists parameters.
+
+## Conclusion
+
+This chapter has provided a foundational understanding of ROS 2, its architectural principles, and essential tools. With a ROS 2 workspace set up and basic commands under your belt, you are now ready to delve deeper into its communication mechanisms and start building intelligent robotic applications.

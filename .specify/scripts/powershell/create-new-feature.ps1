@@ -78,7 +78,7 @@ function Get-NextBranchNumber {
         $remoteRefs = git ls-remote --heads origin 2>$null
         if ($remoteRefs) {
             $remoteBranches = $remoteRefs | Where-Object { $_ -match "refs/heads/(\d+)-$([regex]::Escape($ShortName))$" } | ForEach-Object {
-                if ($_ -match "refs/heads/(\d+)-") {
+                if ($_ -match "(\d+)-") {
                     [int]$matches[1]
                 }
             }
@@ -142,7 +142,7 @@ try {
     }
 } catch {
     $repoRoot = $fallbackRoot
-    $hasGit = $false
+    $hasGit = false
 }
 
 Set-Location $repoRoot
@@ -200,7 +200,6 @@ if ($ShortName) {
     # Use provided short name, just clean it up
     $branchSuffix = $ShortName.ToLower() -replace '[^a-z0-9]', '-' -replace '-{2,}', '-' -replace '^-', '' -replace '-$', ''
 } else {
-    # Generate from description with smart filtering
     $branchSuffix = Get-BranchName -Description $featureDesc
 }
 
@@ -292,4 +291,3 @@ if ($Json) {
     Write-Output "HAS_GIT: $hasGit"
     Write-Output "SPECIFY_FEATURE environment variable set to: $branchName"
 }
-

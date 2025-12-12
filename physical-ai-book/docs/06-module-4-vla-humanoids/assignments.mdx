@@ -1,0 +1,119 @@
+---
+title: "Module 4: VLA & Humanoid Robotics Assignments"
+description: "Practical, hands-on assignments and projects for applying Visual Language Action (VLA) models and advanced control to humanoid robotics in simulation."
+---
+
+import { FaTasks, FaBullseye, FaClipboardList } from 'react-icons/fa';
+
+
+This module culminates with a series of practical assignments designed to deepen your understanding and hands-on skills in **Visual Language Action (VLA) models** and **Humanoid Robotics**. These projects will challenge you to apply the theoretical concepts and software tools covered throughout this book to build intelligent and capable humanoid behaviors in a simulated environment.
+
+## Assignment 4.1: VLA-Driven Object Manipulation in Simulation
+
+**Objective**: Develop a VLA-inspired system that enables a simulated humanoid robot to pick up and place objects based on natural language commands and visual input.
+
+**Prerequisites**:
+-   Solid understanding of ROS 2 communication (nodes, topics, services).
+-   Familiarity with NVIDIA Isaac Sim for simulation.
+-   Proficiency in Python programming.
+-   Conceptual understanding of VLA models.
+
+<div className="card" style={{margin: '2rem 0'}}>
+  <div className="card__header" style={{backgroundColor: 'var(--ifm-color-primary-dark)', color: 'white'}}>
+    <h3><FaBullseye /> Task Description</h3>
+  </div>
+  <div className="card__body">
+    <ol>
+      <li>
+        <strong>Environment Setup</strong>:
+        <ul>
+          <li>In Isaac Sim, create a simple environment containing a humanoid robot (e.g., a pre-built example like Franka or a custom model) and several distinct, colored objects (e.g., cubes, spheres).</li>
+          <li>Ensure the robot is equipped with a gripper or end-effector capable of picking up these objects.</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Perception Module (Simplified)</strong>:
+        <ul>
+          <li>Develop a Python-based ROS 2 node that "detects" objects in the simulation. For this assignment, you can mock this by returning the known positions and labels of the objects based on their initial placement.</li>
+          <li>Publish these "detections" over a ROS 2 topic (e.g., a custom message type).</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Language Understanding (Simplified)</strong>:
+        <ul>
+          <li>Create a "language interpreter" node that accepts natural language commands (e.g., "pick up the red cube and place it on the green sphere") via a ROS 2 service.</li>
+          <li>This node should parse the command to extract the target object, destination, and action. Start with simple string matching for a limited vocabulary.</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Action Planning and Execution</strong>:
+        <ul>
+          <li>Develop a "planner" node that subscribes to object detections and receives parsed commands.</li>
+          <li>The planner should generate a sequence of high-level robot actions (e.g., `move_to(object)`, `grasp()`, `move_to(destination)`, `release()`).</li>
+          <li>Translate these high-level actions into low-level joint commands or inverse kinematics (IK) goals for the simulated humanoid in Isaac Sim.</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Integration</strong>:
+        <ul>
+          <li>Use a ROS 2 launch file to orchestrate all your nodes (perception, language interpreter, planner).</li>
+          <li>Verify the complete system by issuing commands and observing the humanoid robot's behavior in Isaac Sim.</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div className="card" style={{marginTop: '2rem'}}>
+  <div className="card__header" style={{backgroundColor: 'var(--ifm-color-secondary-darkest)', color: 'white'}}>
+    <h3><FaClipboardList /> Deliverables</h3>
+  </div>
+  <div className="card__body">
+    <ul>
+      <li>A ROS 2 package (`my_vla_humanoid_pkg`) containing all nodes and launch files.</li>
+      <li>The Isaac Sim environment setup script (Python or USD).</li>
+      <li>A brief report (PDF) detailing the architecture of your system, challenges faced, and solutions implemented.</li>
+      <li>A video demonstration of your simulated humanoid successfully executing 2-3 different commands.</li>
+    </ul>
+  </div>
+</div>
+
+## Assignment 4.2: Humanoid Balance and Gait Generation (Advanced)
+
+**Objective**: Implement a basic balance controller and generate a stable walking gait for a simulated humanoid robot.
+
+**Prerequisites**:
+-   Strong understanding of URDF and robot modeling.
+-   Familiarity with the Zero Moment Point (ZMP) concept.
+-   Proficiency in Python and ROS 2.
+-   Experience with `ros2_control` or similar joint control interfaces in a simulation environment.
+
+### Task Description:
+
+1.  **Robot Model**:
+    -   Use a simple bipedal humanoid model in Isaac Sim or Gazebo.
+    -   Ensure the model includes contact sensors on its feet to detect ground interaction.
+2.  **Balance Controller**:
+    -   Implement a controller that continuously monitors the robot's ZMP.
+    -   If the ZMP is detected to be moving outside the support polygon, the controller must generate compensatory joint torques (e.g., using an ankle strategy) to restore balance.
+3.  **Gait Generation**:
+    -   Develop a basic walking gait generator using a method of your choice, such as:
+        -   Pre-defined joint trajectories.
+        -   Simple pattern generators based on sinusoidal functions.
+    -   The gait generator should coordinate the robot's leg movements with its ZMP trajectory to produce a stable walking motion.
+4.  **Integration and Testing**:
+    -   Integrate your balance controller and gait generator.
+    -   Use ROS 2 to send high-level commands (e.g., "start walking") and monitor the robot's state (joint angles, ZMP, etc.).
+    -   Thoroughly test the walking gait on a flat surface and analyze its stability.
+    -   (Optional) Introduce small external forces to test the robustness of your balance controller.
+
+### Deliverables:
+
+-   A ROS 2 package (`humanoid_control_pkg`) containing your control nodes and launch files.
+-   The URDF/XACRO model of the humanoid robot used.
+-   A report (PDF) detailing your balance control strategy, gait generation approach, and an analysis of the robot's stability performance.
+-   A video demonstrating your humanoid walking and maintaining balance.
+
+## Conclusion
+
+These assignments provide invaluable hands-on experience with the complex challenges of VLA models and humanoid control. By completing these projects, you will not only reinforce your theoretical knowledge but also gain the practical skills necessary to develop cutting-edge robotic systems capable of intelligent physical interaction.

@@ -1,55 +1,58 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report:
+- Version change: Unknown (initial) → 1.0.0
+- List of modified principles: All principles are new.
+    - I. AI/Spec-Driven Development
+    - II. Technical Accuracy & Zero Hallucinations
+    - III. Clear, Engineering-Focused Educational Content
+    - IV. Structured Content & Media Usage
+    - V. Docusaurus Build & Deployment Integrity
+    - VI. Strict Adherence to Constraints
+- Added sections:
+    - Project Scope and Deliverables
+    - Quality Assurance and Compliance
+    - Governance (rules are new)
+- Removed sections: None
+- Templates requiring updates:
+    - .specify/templates/plan-template.md: ✅ (Reviewed, no changes needed)
+    - .specify/templates/spec-template.md: ✅ (Reviewed, no changes needed)
+    - .specify/templates/tasks-template.md: ✅ (Reviewed, no changes needed)
+    - Command files in .gemini/commands/: ✅ (Reviewed, no changes needed)
+    - Runtime guidance docs (README.md, docs/quickstart.md): ⚠ (None found, no updates possible)
+- Follow-up TODOs if any placeholders intentionally deferred: None.
+-->
+# Physical AI & Humanoid Robotics — A Full Docusaurus Book + Integrated RAG Chatbot Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. AI/Spec-Driven Development
+All project content, especially the book, MUST be generated using Spec-Kit Plus and Gemini CLI. Output MUST be a Docusaurus project (TypeScript + MDX) deployable to GitHub Pages. All content MUST be internally consistent, technically correct, and produce a fully working Docusaurus site.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Technical Accuracy & Zero Hallucinations
+All technical content (robotics, ROS 2, simulation, NVIDIA Isaac, VLA) MUST be rigorously accurate. Zero hallucinations are tolerated; all robotics terms and workflows MUST adhere to real tooling standards. Code samples MUST be valid, testable, and runnable.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Clear, Engineering-Focused Educational Content
+Content MUST be written in a clear, explanatory, engineering-focused tone, prioritizing practical robotics workflows. It MUST cater to engineering students, roboticists, and AI developers, following a progressive learning path: theory → implementation → simulation → deployment. Overly academic language MUST be avoided.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Structured Content & Media Usage
+Content MUST be highly structured, utilizing diagrams (Mermaid), tables, and structured examples. Code samples (Python, ROS 2, C++, YAML, Isaac scripts) MUST be included where necessary. Each module MUST include an overview, weekly breakdown, labs, assignments, and evaluation criteria.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Docusaurus Build & Deployment Integrity
+The Docusaurus build MUST succeed with zero errors. Sidebars MUST generate correctly according to the specified structure. All .mdx files MUST be created with correct paths and frontmatter. Content MUST load successfully locally, and the final book MUST be deployable without modification. Chatbot integration placeholders MUST be added.
 
-### [PRINCIPLE_6_NAME]
+### VI. Strict Adherence to Constraints
+All Spec-Kit Plus functions MUST be followed strictly. File paths MUST conform to `/physical-ai-book/docs/...`. Each module MUST be self-contained and internally coherent. No duplicate pages, empty placeholders, or broken links are permitted.
 
+## Project Scope and Deliverables
 
-[PRINCIPLE__DESCRIPTION]
+This project aims to deliver a production-ready educational book on Physical AI and Humanoid Robotics, integrated with a RAG chatbot. The primary deliverable is the Docusaurus book, with chatbot integration to follow.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Quality Assurance and Compliance
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+All content and code samples MUST undergo rigorous technical review to ensure accuracy. Compliance with Spec-Kit Plus functions and specified structural requirements will be continuously verified. Automated checks for Docusaurus build integrity, link validation, and file path adherence MUST be implemented.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution is the foundational document guiding all project development. Any amendments require a formal proposal, documentation of rationale, and approval by project leads. All changes to this constitution MUST adhere to semantic versioning. All pull requests and code reviews MUST verify compliance with these stated principles. For runtime development guidance, refer to project-specific documentation and the Spec-Kit Plus guidelines.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-12-12 | **Last Amended**: 2025-12-12
